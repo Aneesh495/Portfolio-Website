@@ -4,6 +4,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Github, ExternalLink } from "lucide-react";
 
+const trackProjectClick = (project: string, type: string) => {
+  fetch("/api/track/project-click", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ project, type }),
+  });
+};
+
 const projects = [
   {
     title: "Vibe - Social Media App",
@@ -155,7 +163,10 @@ export default function Projects() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => window.open(project.githubUrl, "_blank")}
+                      onClick={() => {
+                        trackProjectClick(project.title, "github");
+                        window.open(project.githubUrl, "_blank");
+                      }}
                     >
                       <Github className="mr-1 h-4 w-4" />
                       Code
@@ -163,7 +174,10 @@ export default function Projects() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => window.open(project.liveUrl, "_blank")}
+                      onClick={() => {
+                        trackProjectClick(project.title, "live");
+                        window.open(project.liveUrl, "_blank");
+                      }}
                     >
                       <ExternalLink className="mr-1 h-4 w-4" />
                       Live Demo

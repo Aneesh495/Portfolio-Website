@@ -186,6 +186,14 @@ const games = [
   },*/
 ];
 
+const trackGamePlay = (game: string) => {
+  fetch("/api/track/game-play", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ game }),
+  });
+};
+
 export default function Games() {
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
 
@@ -257,7 +265,10 @@ export default function Games() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="game-card"
-              onClick={() => setSelectedGame(game.id)}
+              onClick={() => {
+                setSelectedGame(game.id);
+                trackGamePlay(game.id);
+              }}
             >
               <Card className="h-full shadow-lg hover:shadow-xl transition-all duration-300">
                 <CardContent className="p-6 text-center">
@@ -306,6 +317,7 @@ export default function Games() {
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedGame(game.id);
+                        trackGamePlay(game.id);
                       }}
                     >
                       <motion.div

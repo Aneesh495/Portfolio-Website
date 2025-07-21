@@ -13,6 +13,14 @@ import { motion } from "framer-motion";
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
+  const trackSocialClick = (platform: string) => {
+    fetch("/api/track/social-click", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ platform, source: "footer" }),
+    });
+  };
+
   return (
     <motion.footer
       initial={{ opacity: 0 }}
@@ -85,6 +93,7 @@ export default function Footer() {
                 href="https://github.com/Aneesh495"
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => trackSocialClick("github")}
                 className="bg-slate-800 hover:bg-slate-700 p-3 rounded-lg transition-colors group"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -95,6 +104,7 @@ export default function Footer() {
                 href="https://linkedin.com/in/aneesh-krishna-780701253"
                 whileHover={{ scale: 1.1, rotate: -5 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => trackSocialClick("linkedin")}
                 className="bg-slate-800 hover:bg-slate-700 p-3 rounded-lg transition-colors group"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -105,6 +115,7 @@ export default function Footer() {
                 href="https://open.spotify.com/user/wrljxtsfh4n10lh6r3r50m9yf?si=f07588f60ddb43ec"
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => trackSocialClick("spotify")}
                 className="bg-slate-800 hover:bg-slate-700 p-3 rounded-lg transition-colors group"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -115,6 +126,7 @@ export default function Footer() {
                 href="https://www.instagram.com/aneesh.495/"
                 whileHover={{ scale: 1.1, rotate: -5 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => trackSocialClick("instagram")}
                 className="bg-slate-800 hover:bg-slate-700 p-3 rounded-lg transition-colors group"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -125,6 +137,7 @@ export default function Footer() {
                 href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1"
                 whileHover={{ scale: 1.1, rotate: -5 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => trackSocialClick("youtube")}
                 className="bg-slate-800 hover:bg-slate-700 p-3 rounded-lg transition-colors group"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -135,6 +148,7 @@ export default function Footer() {
                 href="mailto:aneeshkrishnaparthasarathy@gmail.com"
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => trackSocialClick("email")}
                 className="bg-slate-800 hover:bg-slate-700 p-3 rounded-lg transition-colors group"
               >
                 <Mail className="h-5 w-5 text-slate-300 group-hover:text-green-400" />

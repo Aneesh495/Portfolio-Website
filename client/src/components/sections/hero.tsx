@@ -2,6 +2,10 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 export default function Hero() {
+  const trackResumeDownload = () => {
+    fetch("/api/track/resume-download", { method: "POST" });
+  };
+
   return (
     <section
       id="home"
@@ -67,11 +71,7 @@ export default function Hero() {
             variant="outline"
             size="lg"
             className="px-8 py-3 text-lg font-medium border-2 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-            onClick={() =>
-              document
-                .getElementById("contact")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
+            onClick={trackResumeDownload}
           >
             Get In Touch
           </Button>

@@ -78,6 +78,7 @@ export default function Contact() {
           message: "",
           notRobot: false,
         });
+        trackContactSubmission();
       } else {
         throw new Error("Failed to send email");
       }
@@ -97,6 +98,18 @@ export default function Contact() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const trackContactSubmission = () => {
+    fetch("/api/track/contact", { method: "POST" });
+  };
+
+  const trackSocialClick = (platform: string) => {
+    fetch("/api/track/social-click", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ platform, source: "contact" }),
+    });
   };
 
   return (
@@ -151,6 +164,7 @@ export default function Contact() {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => trackSocialClick("linkedin")}
                 className="flex items-center p-4 bg-card rounded-lg shadow-lg hover:shadow-xl transition-shadow"
               >
                 <Linkedin className="text-primary text-xl mr-4" />
@@ -168,12 +182,16 @@ export default function Contact() {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => trackSocialClick("github")}
                 className="flex items-center p-4 bg-card rounded-lg shadow-lg hover:shadow-xl transition-shadow"
               >
                 <Github className="text-primary text-xl mr-4" />
                 <div>
                   <h4 className="font-semibold">GitHub</h4>
-                  <p className="text-muted-foreground"> Check out more of my work</p>
+                  <p className="text-muted-foreground">
+                    {" "}
+                    Check out more of my work
+                  </p>
                 </div>
               </motion.a>
 
@@ -183,6 +201,7 @@ export default function Contact() {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => trackSocialClick("spotify")}
                 className="flex items-center p-4 bg-card rounded-lg shadow-lg hover:shadow-xl transition-shadow"
               >
                 <SiSpotify className="text-primary text-xl mr-4" />
@@ -200,6 +219,7 @@ export default function Contact() {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => trackSocialClick("instagram")}
                 className="flex items-center p-4 bg-card rounded-lg shadow-lg hover:shadow-xl transition-shadow"
               >
                 <SiInstagram className="text-primary text-xl mr-4" />
