@@ -17,27 +17,32 @@
       content="Explore the portfolio of Aneesh Krishna, featuring innovative software projects, blockchain development, and interactive games."
     />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content="/og-thumbnail.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="/og-thumbnail.png" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    
+
     <!-- Performance optimizations -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-    
+
     <!-- Optimized font loading with font-display swap -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    
+
     <!-- Preload critical CSS -->
     <link rel="preload" href="/src/index.css" as="style" />
-    
+
     <!-- Resource hints for better loading -->
     <link rel="modulepreload" href="/src/main.tsx" />
     <link rel="modulepreload" href="/src/App.tsx" />
-    
+
     <!-- Critical CSS inline to avoid render blocking -->
     <style>
       /* Critical above-the-fold styles */
@@ -55,11 +60,11 @@
         -moz-osx-font-smoothing: grayscale;
         -webkit-text-size-adjust: 100%;
       }
-      
+
       #root {
         min-height: 100vh;
       }
-      
+
       /* Loading state */
       .loading {
         display: flex;
