@@ -4,19 +4,33 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import Home from "@/pages/home";
-import NotFound from "@/pages/not-found";
-import AdminDashboard from "@/pages/admin-dashboard";
+import { lazy, Suspense, memo } from "react";
 
-function Router() {
+// Lazy load pages for better code splitting
+const Home = lazy(() => import("@/pages/home"));
+const NotFound = lazy(() => import("@/pages/not-found"));
+const AdminDashboard = lazy(() => import("@/pages/admin-dashboard"));
+
+// Loading component
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+  </div>
+);
+
+const Router = memo(() => {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/admin-dashboard" component={AdminDashboard} />
-      <Route component={NotFound} />
-    </Switch>
+    <Suspense fallback={<PageLoader />}>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/admin-dashboard" component={AdminDashboard} />
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   );
-}
+});
+
+Router.displayName = "Router";
 
 function App() {
   return (
@@ -31,4 +45,4 @@ function App() {
   );
 }
 
-export default App;
+export default memo(App);

@@ -28,37 +28,49 @@ export default defineConfig({
     // Optimize chunk splitting
     rollupOptions: {
       output: {
-        manualChunks: {
+        manualChunks: (id) => {
           // Vendor chunks
-          "react-vendor": ["react", "react-dom"],
-          "router": ["wouter"],
-          "query": ["@tanstack/react-query"],
-          "ui-vendor": ["framer-motion"],
-          "icons": ["lucide-react"],
-          // Game chunks - split by category
-          "games-core": [
-            "./src/components/games/tic-tac-toe.tsx",
-            "./src/components/games/game-2048.tsx",
-            "./src/components/games/snake.tsx",
-            "./src/components/games/rock-paper-scissors.tsx"
-          ],
-          "games-strategy": [
-            "./src/components/games/chess.tsx",
-            "./src/components/games/connect-four.tsx",
-            "./src/components/games/minesweeper.tsx"
-          ],
-          "games-puzzle": [
-            "./src/components/games/tetris.tsx",
-            "./src/components/games/memory-match.tsx",
-            "./src/components/games/word-guess.tsx",
-            "./src/components/games/word-hunt.tsx"
-          ],
-          "games-action": [
-            "./src/components/games/battleship.tsx",
-            "./src/components/games/flappy-bird.tsx",
-            "./src/components/games/breakout.tsx",
-            "./src/components/games/puzzle-platformer.tsx"
-          ]
+          if (id.includes("node_modules")) {
+            if (id.includes("react") || id.includes("react-dom")) {
+              return "react-vendor";
+            }
+            if (id.includes("framer-motion")) {
+              return "ui-vendor";
+            }
+            if (id.includes("lucide-react")) {
+              return "icons";
+            }
+            if (id.includes("@tanstack/react-query")) {
+              return "query";
+            }
+            if (id.includes("wouter")) {
+              return "router";
+            }
+            if (id.includes("@radix-ui")) {
+              return "radix-ui";
+            }
+            return "vendor";
+          }
+          
+          // Game chunks
+          if (id.includes("components/games/")) {
+            if (id.includes("tic-tac-toe") || id.includes("game-2048") || 
+                id.includes("snake") || id.includes("rock-paper-scissors")) {
+              return "games-core";
+            }
+            if (id.includes("chess") || id.includes("connect-four") || 
+                id.includes("minesweeper")) {
+              return "games-strategy";
+            }
+            if (id.includes("tetris") || id.includes("memory-match") || 
+                id.includes("word-guess") || id.includes("word-hunt")) {
+              return "games-puzzle";
+            }
+            if (id.includes("battleship") || id.includes("flappy-bird") || 
+                id.includes("breakout") || id.includes("puzzle-platformer")) {
+              return "games-action";
+            }
+          }
         },
       },
     },
