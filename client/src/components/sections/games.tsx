@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,44 +9,37 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import {
-  X,
-  Gamepad2,
-  Sparkles,
-  Zap,
-  Target,
-  Brain,
-  Bomb,
-  Scissors,
-  Circle,
-  Type,
-  Puzzle,
-  Crown,
-  Ship,
-  Search,
-  Grid3X3,
-  FileText,
-  Search as SearchIcon,
-  Hash,
-  Move,
-  HelpCircle,
-  Feather,
-} from "lucide-react";
-import TicTacToe from "@/components/games/tic-tac-toe";
-import Game2048 from "@/components/games/game-2048";
-import Snake from "@/components/games/snake";
-import MemoryMatch from "@/components/games/memory-match";
-import Minesweeper from "@/components/games/minesweeper";
-import RockPaperScissors from "@/components/games/rock-paper-scissors";
-import ConnectFour from "@/components/games/connect-four";
-import WordGuess from "@/components/games/word-guess";
-import Tetris from "@/components/games/tetris";
-import Chess from "@/components/games/chess";
-import Battleship from "@/components/games/battleship";
-import WordHunt from "@/components/games/word-hunt";
-import FlappyBird from "@/components/games/flappy-bird";
-import Breakout from "@/components/games/breakout";
-import PuzzlePlatformer from "@/components/games/puzzle-platformer";
+
+// Optimized icon imports for better tree shaking
+import { Gamepad2, Target, Brain, Bomb, Scissors, Crown, Ship, Hash, Move, HelpCircle, Loader2 } from "lucide-react";
+import { Grid3X3, Puzzle, Search as SearchIcon } from "lucide-react";
+
+// Lazy load all game components
+const TicTacToe = lazy(() => import("@/components/games/tic-tac-toe"));
+const Game2048 = lazy(() => import("@/components/games/game-2048"));
+const Snake = lazy(() => import("@/components/games/snake"));
+const MemoryMatch = lazy(() => import("@/components/games/memory-match"));
+const Minesweeper = lazy(() => import("@/components/games/minesweeper"));
+const RockPaperScissors = lazy(() => import("@/components/games/rock-paper-scissors"));
+const ConnectFour = lazy(() => import("@/components/games/connect-four"));
+const WordGuess = lazy(() => import("@/components/games/word-guess"));
+const Tetris = lazy(() => import("@/components/games/tetris"));
+const Chess = lazy(() => import("@/components/games/chess"));
+const Battleship = lazy(() => import("@/components/games/battleship"));
+const WordHunt = lazy(() => import("@/components/games/word-hunt"));
+const FlappyBird = lazy(() => import("@/components/games/flappy-bird"));
+const Breakout = lazy(() => import("@/components/games/breakout"));
+const PuzzlePlatformer = lazy(() => import("@/components/games/puzzle-platformer"));
+
+// Loading component for games
+const GameLoader = () => (
+  <div className="flex items-center justify-center p-8">
+    <div className="flex flex-col items-center gap-4">
+      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <p className="text-muted-foreground">Loading game...</p>
+    </div>
+  </div>
+);
 
 const games = [
   {
@@ -350,7 +343,13 @@ export default function Games() {
             </DialogTitle>
             <DialogDescription>{currentGame?.description}</DialogDescription>
           </DialogHeader>
-          <div className="mt-4">{currentGame && <currentGame.component />}</div>
+          <div className="mt-4">
+            {currentGame && (
+              <Suspense fallback={<GameLoader />}>
+                <currentGame.component />
+              </Suspense>
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </section>
